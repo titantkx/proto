@@ -22,7 +22,6 @@ use gravity::{gravity_main, gravity_test};
 use regex::Regex;
 use walkdir::WalkDir;
 
-pub mod althea;
 pub mod cosmos_sdk;
 pub mod gravity;
 
