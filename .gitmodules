@@ -1,9 +1,6 @@
 [submodule "cosmos-sdk"]
 path = cosmos-sdk
 url = https://github.com/titantkx/cosmos-sdk
-[submodule "althea-chain"]
-path = althea-L1
-url = https://github.com/althea-net/althea-chain.git
 [submodule "gravity"]
 path = gravity
 url = https://github.com/titantkx/Gravity-Bridge.git
@@ -13,9 +10,3 @@ url = https://github.com/informalsystems/tendermint.git
 [submodule "ibc-go"]
 path = ibc-go
 url = https://github.com/cosmos/ibc-go
-[submodule "bech32-ibc"]
-path = bech32-ibc
-url = https://github.com/althea-net/bech32-ibc
-[submodule "ibc-test-chain"]
-path = ibc-test-chain
-url = https://github.com/althea-net/ibc-test-chain
