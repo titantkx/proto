@@ -6,18 +6,6 @@
 #![forbid(unsafe_code)]
 #![warn(trivial_casts, trivial_numeric_casts, unused_import_braces)]
 
-/// Bech32ibc protobuf definitions
-#[cfg(feature = "bech32ibc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "bech32ibc")))]
-pub mod bech32ibc {
-    /// Bech32 prefix -> IBC Channel mapping
-    pub mod bech32ibc {
-        pub mod v1 {
-            include!("prost/bech32ibc.bech32ibc.v1beta1.rs");
-        }
-    }
-}
-
 /// Cosmos protobuf definitions.
 pub mod cosmos {
     /// Authentication of accounts and transactions.
@@ -96,6 +84,12 @@ pub mod cosmos {
             pub mod v1beta1 {
                 include!("prost/cosmos.base.tendermint.v1beta1.rs");
             }
+        }
+    }
+
+    pub mod consensus {
+        pub mod v1 {
+            include!("prost/cosmos.consensus.v1.rs");
         }
     }
 
@@ -216,136 +210,16 @@ pub mod cosmos {
     }
 }
 
-/// IBC protobuf definitions.
-pub mod ibc {
-    /// IBC applications.
-    pub mod applications {
-        /// Transfer support.
-        pub mod transfer {
-            pub mod v1 {
-                include!("prost/ibc.applications.transfer.v1.rs");
-            }
-
-            pub mod v2 {
-                include!("prost/ibc.applications.transfer.v2.rs");
-            }
-        }
-
-        /// ICA
-        pub mod interchain_accounts {
-            pub mod v1 {
-                include!("prost/ibc.applications.interchain_accounts.v1.rs");
-            }
-            pub mod controller {
-                pub mod v1 {
-                    include!("prost/ibc.applications.interchain_accounts.controller.v1.rs");
-                }
-            }
-            pub mod host {
-                pub mod v1 {
-                    include!("prost/ibc.applications.interchain_accounts.host.v1.rs");
-                }
-            }
-        }
-    }
-
-    /// IBC core.
-    pub mod core {
-        /// IBC channels.
-        pub mod channel {
-            pub mod v1 {
-                include!("prost/ibc.core.channel.v1.rs");
-            }
-        }
-
-        /// IBC client.
-        pub mod client {
-            pub mod v1 {
-                include!("prost/ibc.core.client.v1.rs");
-            }
-        }
-
-        /// IBC commitments.
-        pub mod commitment {
-            pub mod v1 {
-                include!("prost/ibc.core.commitment.v1.rs");
-            }
-        }
-
-        /// IBC connections.
-        pub mod connection {
-            pub mod v1 {
-                include!("prost/ibc.core.connection.v1.rs");
-            }
-        }
-
-        /// IBC types.
-        pub mod types {
-            pub mod v1 {
-                include!("prost/ibc.core.types.v1.rs");
-            }
-        }
-    }
-
-    /// IBC light clients.
-    pub mod lightclients {
-        pub mod localhost {
-            pub mod v1 {
-                include!("prost/ibc.lightclients.localhost.v1.rs");
-            }
-        }
-        pub mod solomachine {
-            pub mod v1 {
-                include!("prost/ibc.lightclients.solomachine.v1.rs");
-            }
-
-            pub mod v2 {
-                include!("prost/ibc.lightclients.solomachine.v2.rs");
-            }
-        }
-        pub mod tendermint {
-            pub mod v1 {
-                include!("prost/ibc.lightclients.tendermint.v1.rs");
-            }
-        }
-    }
-}
-
-/// ICS23 protobuf definitions.
-pub mod ics23 {
-    include!("prost/ics23.rs");
-}
-
 /// Tendermint proto definitions
 pub mod tendermint {
     pub mod abci {
         include!("prost/tendermint.abci.rs");
     }
-    pub mod libs {
-        pub mod bits {
-            include!("prost/tendermint.libs.bits.rs");
-        }
-    }
-    pub mod consensus {
-        include!("prost/tendermint.consensus.rs");
-    }
     pub mod crypto {
         include!("prost/tendermint.crypto.rs");
     }
-    pub mod mempool {
-        include!("prost/tendermint.mempool.rs");
-    }
     pub mod p2p {
         include!("prost/tendermint.p2p.rs");
-    }
-    pub mod privval {
-        include!("prost/tendermint.privval.rs");
-    }
-    pub mod state {
-        include!("prost/tendermint.state.rs");
-    }
-    pub mod statesync {
-        include!("prost/tendermint.statesync.rs");
     }
     pub mod types {
         include!("prost/tendermint.types.rs");

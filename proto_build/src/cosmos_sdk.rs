@@ -8,10 +8,11 @@
 //! in github.com/informalsystems/ibc-rs
 
 use std::{
-    fs,
+    fs, io,
     path::{Path, PathBuf},
 };
 
+use regex::Regex;
 use walkdir::WalkDir;
 
 use crate::{compile_protos, copy_generated_files, RegexReplace, GOOGLE_COMMON_ROOT};
@@ -102,6 +103,22 @@ fn compile_sdk_protos_and_services(
         clean_tmp: false,
         clean_out: false,
     });
+
+    // Fix clashing type names in prost-generated code. See cosmos/cosmos-rust#154.
+    for (pattern, replacement) in [
+        ("enum Validators", "enum Policy"),
+        (
+            "stake_authorization::Validators",
+            "stake_authorization::Policy",
+        ),
+    ] {
+        patch_file(
+            &out_path.join("cosmos.staking.v1beta1.rs"),
+            &Regex::new(pattern).unwrap(),
+            replacement,
+        )
+        .expect("error patching cosmos.staking.v1beta1.rs");
+    }
 
     info!("=> Done!");
 }
@@ -287,4 +304,10 @@ fn compile_bech32ibc_protos_and_services(
         clean_tmp: true,
         clean_out: false,
     });
+}
+
+fn patch_file(path: impl AsRef<Path>, pattern: &Regex, replacement: &str) -> io::Result<()> {
+    let mut contents = fs::read_to_string(&path)?;
+    contents = pattern.replace_all(&contents, replacement).to_string();
+    fs::write(path, &contents)
 }
