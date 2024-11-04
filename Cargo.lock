@@ -27,16 +27,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "althea_proto"
-version = "0.9.0"
-dependencies = [
- "cosmos-sdk-proto-althea",
- "prost",
- "prost-types",
- "tonic",
-]
-
-[[package]]
 name = "anstream"
 version = "0.6.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -379,16 +369,6 @@ name = "gimli"
 version = "0.31.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32085ea23f3234fc7846555e85283ba4de91e21016dc0455a16286d87a292d64"
-
-[[package]]
-name = "gravity_proto"
-version = "0.6.0"
-dependencies = [
- "cosmos-sdk-proto-althea",
- "prost",
- "prost-types",
- "tonic",
-]
 
 [[package]]
 name = "h2"

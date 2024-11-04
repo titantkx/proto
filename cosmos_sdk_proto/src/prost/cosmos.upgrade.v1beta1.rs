@@ -18,7 +18,6 @@ pub struct Plan {
     #[prost(message, optional, tag = "2")]
     pub time: ::core::option::Option<::prost_types::Timestamp>,
     /// The height at which the upgrade must be performed.
-    /// Only used if Time is not set.
     #[prost(int64, tag = "3")]
     pub height: i64,
     /// Any application specific upgrade info to be included on-chain
@@ -38,10 +37,13 @@ pub struct Plan {
 /// proposals, see MsgSoftwareUpgrade.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SoftwareUpgradeProposal {
+    /// title of the proposal
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
+    /// description of the proposal
     #[prost(string, tag = "2")]
     pub description: ::prost::alloc::string::String,
+    /// plan of the proposal
     #[prost(message, optional, tag = "3")]
     pub plan: ::core::option::Option<Plan>,
 }
@@ -51,8 +53,10 @@ pub struct SoftwareUpgradeProposal {
 /// proposals, see MsgCancelUpgrade.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelSoftwareUpgradeProposal {
+    /// title of the proposal
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
+    /// description of the proposal
     #[prost(string, tag = "2")]
     pub description: ::prost::alloc::string::String,
 }
@@ -67,6 +71,188 @@ pub struct ModuleVersion {
     /// consensus version of the app module
     #[prost(uint64, tag = "2")]
     pub version: u64,
+}
+/// MsgSoftwareUpgrade is the Msg/SoftwareUpgrade request type.
+///
+/// Since: cosmos-sdk 0.46
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgSoftwareUpgrade {
+    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// plan is the upgrade plan.
+    #[prost(message, optional, tag = "2")]
+    pub plan: ::core::option::Option<Plan>,
+}
+/// MsgSoftwareUpgradeResponse is the Msg/SoftwareUpgrade response type.
+///
+/// Since: cosmos-sdk 0.46
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgSoftwareUpgradeResponse {}
+/// MsgCancelUpgrade is the Msg/CancelUpgrade request type.
+///
+/// Since: cosmos-sdk 0.46
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgCancelUpgrade {
+    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+}
+/// MsgCancelUpgradeResponse is the Msg/CancelUpgrade response type.
+///
+/// Since: cosmos-sdk 0.46
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgCancelUpgradeResponse {}
+/// Generated client implementations.
+pub mod msg_client {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value,
+    )]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// Msg defines the upgrade Msg service.
+    #[derive(Debug, Clone)]
+    pub struct MsgClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl MsgClient<tonic::transport::Channel> {
+        /// Attempt to create a new client by connecting to a given endpoint.
+        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
+        where
+            D: TryInto<tonic::transport::Endpoint>,
+            D::Error: Into<StdError>,
+        {
+            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
+            Ok(Self::new(conn))
+        }
+    }
+    impl<T> MsgClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MsgClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + std::marker::Send + std::marker::Sync,
+        {
+            MsgClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// SoftwareUpgrade is a governance operation for initiating a software upgrade.
+        ///
+        /// Since: cosmos-sdk 0.46
+        pub async fn software_upgrade(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgSoftwareUpgrade>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgSoftwareUpgradeResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/cosmos.upgrade.v1beta1.Msg/SoftwareUpgrade",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("cosmos.upgrade.v1beta1.Msg", "SoftwareUpgrade"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// CancelUpgrade is a governance operation for cancelling a previously
+        /// approved software upgrade.
+        ///
+        /// Since: cosmos-sdk 0.46
+        pub async fn cancel_upgrade(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgCancelUpgrade>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgCancelUpgradeResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/cosmos.upgrade.v1beta1.Msg/CancelUpgrade",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("cosmos.upgrade.v1beta1.Msg", "CancelUpgrade"));
+            self.inner.unary(req, path, codec).await
+        }
+    }
 }
 /// QueryCurrentPlanRequest is the request type for the Query/CurrentPlan RPC
 /// method.
@@ -380,188 +566,6 @@ pub mod query_client {
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(GrpcMethod::new("cosmos.upgrade.v1beta1.Query", "Authority"));
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// MsgSoftwareUpgrade is the Msg/SoftwareUpgrade request type.
-///
-/// Since: cosmos-sdk 0.46
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgSoftwareUpgrade {
-    /// authority is the address of the governance account.
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// plan is the upgrade plan.
-    #[prost(message, optional, tag = "2")]
-    pub plan: ::core::option::Option<Plan>,
-}
-/// MsgSoftwareUpgradeResponse is the Msg/SoftwareUpgrade response type.
-///
-/// Since: cosmos-sdk 0.46
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgSoftwareUpgradeResponse {}
-/// MsgCancelUpgrade is the Msg/CancelUpgrade request type.
-///
-/// Since: cosmos-sdk 0.46
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgCancelUpgrade {
-    /// authority is the address of the governance account.
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-}
-/// MsgCancelUpgradeResponse is the Msg/CancelUpgrade response type.
-///
-/// Since: cosmos-sdk 0.46
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgCancelUpgradeResponse {}
-/// Generated client implementations.
-pub mod msg_client {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value,
-    )]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// Msg defines the upgrade Msg service.
-    #[derive(Debug, Clone)]
-    pub struct MsgClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl MsgClient<tonic::transport::Channel> {
-        /// Attempt to create a new client by connecting to a given endpoint.
-        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
-        where
-            D: TryInto<tonic::transport::Endpoint>,
-            D::Error: Into<StdError>,
-        {
-            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
-            Ok(Self::new(conn))
-        }
-    }
-    impl<T> MsgClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MsgClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + std::marker::Send + std::marker::Sync,
-        {
-            MsgClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// SoftwareUpgrade is a governance operation for initiating a software upgrade.
-        ///
-        /// Since: cosmos-sdk 0.46
-        pub async fn software_upgrade(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgSoftwareUpgrade>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgSoftwareUpgradeResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::unknown(
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/cosmos.upgrade.v1beta1.Msg/SoftwareUpgrade",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("cosmos.upgrade.v1beta1.Msg", "SoftwareUpgrade"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// CancelUpgrade is a governance operation for cancelling a previously
-        /// approvid software upgrade.
-        ///
-        /// Since: cosmos-sdk 0.46
-        pub async fn cancel_upgrade(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgCancelUpgrade>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgCancelUpgradeResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::unknown(
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/cosmos.upgrade.v1beta1.Msg/CancelUpgrade",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("cosmos.upgrade.v1beta1.Msg", "CancelUpgrade"));
             self.inner.unary(req, path, codec).await
         }
     }

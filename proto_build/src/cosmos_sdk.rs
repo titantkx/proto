@@ -18,7 +18,6 @@ use crate::{compile_protos, copy_generated_files, RegexReplace, GOOGLE_COMMON_RO
 
 pub struct RootDirs {
     pub cosmos: String,
-    pub bech32ibc: String,
     pub tendermint: String,
     pub ibc: String,
 }
@@ -46,30 +45,25 @@ pub fn cosmos_main(roots: RootDirs, tmp_dir: &str, out_dir: &str) {
     // the manner cosmos-sdk-proto performs this work (for now)
 
     // TODO: Split each project off into its own compilation directory + crate
-    compile_bech32ibc_protos_and_services(
-        Path::new(&roots.bech32ibc),
-        Path::new(tmp_dir),
-        Path::new(out_dir),
-        &regex_replacements,
-    );
-    compile_ibc_protos_and_services(
-        Path::new(&roots.ibc),
-        Path::new(tmp_dir),
-        Path::new(out_dir),
-        &regex_replacements,
-    );
     compile_sdk_protos_and_services(
         Path::new(&roots.cosmos),
         Path::new(tmp_dir),
         Path::new(out_dir),
         &regex_replacements,
     );
-    compile_tendermint_protos_and_services(
-        Path::new(&roots.tendermint),
-        Path::new(tmp_dir),
-        Path::new(out_dir),
-        &regex_replacements,
-    );
+    // compile_ibc_protos_and_services(
+    //     Path::new(&roots.ibc),
+    //     &format!("{}proto", Path::new(&roots.cosmos).display()),
+    //     Path::new(tmp_dir),
+    //     Path::new(out_dir),
+    //     &regex_replacements,
+    // );
+    // compile_tendermint_protos_and_services(
+    //     Path::new(&roots.tendermint),
+    //     Path::new(tmp_dir),
+    //     Path::new(out_dir),
+    //     &regex_replacements,
+    // );
 }
 
 fn compile_sdk_protos_and_services(
@@ -84,31 +78,9 @@ fn compile_sdk_protos_and_services(
     );
 
     // Paths
-    let proto_paths = [
-        &format!("{}proto/cosmos/auth", root.display()),
-        &format!("{}proto/cosmos/authz", root.display()),
-        &format!("{}proto/cosmos/bank", root.display()),
-        &format!("{}proto/cosmos/base", root.display()),
-        &format!("{}proto/cosmos/base/abci", root.display()),
-        &format!("{}proto/cosmos/base/tendermint", root.display()),
-        &format!("{}proto/cosmos/capability", root.display()),
-        &format!("{}proto/cosmos/crisis", root.display()),
-        &format!("{}proto/cosmos/crypto", root.display()),
-        &format!("{}proto/cosmos/distribution", root.display()),
-        &format!("{}proto/cosmos/evidence", root.display()),
-        &format!("{}proto/cosmos/feegrant", root.display()),
-        &format!("{}proto/cosmos/genutil", root.display()),
-        &format!("{}proto/cosmos/gov", root.display()),
-        &format!("{}proto/cosmos/mint", root.display()),
-        &format!("{}proto/cosmos/params", root.display()),
-        &format!("{}proto/cosmos/slashing", root.display()),
-        &format!("{}proto/cosmos/staking", root.display()),
-        &format!("{}proto/cosmos/tx", root.display()),
-        &format!("{}proto/cosmos/upgrade", root.display()),
-        &format!("{}proto/cosmos/vesting", root.display()),
-    ]
-    .map(Path::new)
-    .map(Path::to_path_buf);
+    let proto_paths = [&format!("{}proto/cosmos", root.display())]
+        .map(Path::new)
+        .map(Path::to_path_buf);
 
     let proto_include_paths = [
         &format!("{}proto", root.display()),
@@ -219,6 +191,7 @@ fn compile_tendermint_protos_and_services(
 
 fn compile_ibc_protos_and_services(
     root: &Path,
+    include_path: &String,
     tmp_path: &Path,
     out_path: &Path,
     regex_replacements: &[RegexReplace],
@@ -247,10 +220,22 @@ fn compile_ibc_protos_and_services(
     .map(Path::new)
     .map(Path::to_path_buf);
 
+    // print `include_path` for debugging
+    info!(
+        "include_path: {:?}",
+        [
+            include_path,
+            &format!("{}proto", root.display()),
+            &GOOGLE_COMMON_ROOT.to_string(),
+            &format!("{}third_party/proto", root.display()),
+        ]
+    );
+
     let proto_include_paths = [
+        include_path,
         &format!("{}proto", root.display()),
         &GOOGLE_COMMON_ROOT.to_string(),
-        &format!("{}third_party/proto", root.display()),
+        &format!("{}../third_party/proto", root.display()),
     ]
     .map(Path::new)
     .map(Path::to_path_buf);

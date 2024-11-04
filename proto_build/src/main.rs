@@ -15,15 +15,12 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use althea::althea_main;
 use cosmos_sdk::{cosmos_main, RootDirs};
 use env_logger::Env;
-use gravity::{gravity_main, gravity_test};
 use regex::Regex;
 use walkdir::WalkDir;
 
 pub mod cosmos_sdk;
-pub mod gravity;
 
 #[macro_use]
 extern crate log;
@@ -37,21 +34,17 @@ pub const GRPC_CLIENT_ATTRIBUTES: &[&str] = &[
     TONIC_CLIENT_ATTRIBUTE,
 ];
 /// Root directories of the managed projects
-pub const ALTHEA_ROOT: &str = "../althea-L1/";
 
 pub const COSMOS_SDK_ROOT: &str = "../cosmos-sdk/";
-pub const BECH32IBC_ROOT: &str = "../bech32-ibc/";
 pub const TENDERMINT_ROOT: &str = "../tendermint/";
 pub const IBC_ROOT: &str = "../ibc-go/";
 pub const GOOGLE_COMMON_ROOT: &str = "../common_proto/";
 
 pub const GRAVITY_ROOT: &str = "../gravity/";
-pub const GRAVITY_TEST_ROOT: &str = "../ibc-test-chain/";
 
 /// A temporary directory for proto building
 pub const TMP_PATH: &str = "/tmp/proto/";
 /// the output directory
-pub const ALTHEA_OUT_PATH: &str = "../althea_proto/src/prost/";
 pub const COSMOS_OUT_PATH: &str = "../cosmos_sdk_proto/src/prost/";
 pub const GRAVITY_OUT_PATH: &str = "../gravity_proto/src/prost/";
 
@@ -85,22 +78,16 @@ fn main() {
     // used by protobuf-src in order to compile protoc on the fly rather than depend on system protoc
     std::env::set_var("PROTOC", protobuf_src::protoc());
 
-    // Initiate Althea
-    althea_main(ALTHEA_ROOT, TMP_PATH, ALTHEA_OUT_PATH);
     // Initiate Cosmos SDK
     cosmos_main(
         RootDirs {
             cosmos: COSMOS_SDK_ROOT.to_string(),
-            bech32ibc: BECH32IBC_ROOT.to_string(),
             tendermint: TENDERMINT_ROOT.to_string(),
             ibc: IBC_ROOT.to_string(),
         },
         TMP_PATH,
         COSMOS_OUT_PATH,
     );
-    // Initiate Gravity
-    gravity_main(GRAVITY_ROOT, TMP_PATH, GRAVITY_OUT_PATH);
-    gravity_test(GRAVITY_TEST_ROOT, TMP_PATH, GRAVITY_OUT_PATH);
 }
 
 struct CompileArgs<'a> {

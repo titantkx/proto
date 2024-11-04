@@ -1,12 +1,3 @@
 [submodule "cosmos-sdk"]
 path = cosmos-sdk
 url = https://github.com/titantkx/cosmos-sdk
-[submodule "gravity"]
-path = gravity
-url = https://github.com/titantkx/Gravity-Bridge.git
-[submodule "tendermint"]
-path = tendermint
-url = https://github.com/informalsystems/tendermint.git
-[submodule "ibc-go"]
-path = ibc-go
-url = https://github.com/cosmos/ibc-go
