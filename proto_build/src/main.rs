@@ -13,6 +13,7 @@ use std::{
     fs::{self, create_dir_all, remove_dir_all},
     io,
     path::{Path, PathBuf},
+    process,
 };
 
 use cosmos_sdk::{cosmos_main, RootDirs};
@@ -48,6 +49,7 @@ pub const TMP_PATH: &str = "/tmp/proto/";
 pub const COSMOS_OUT_PATH: &str = "../cosmos_sdk_proto/src/prost/";
 pub const GRAVITY_OUT_PATH: &str = "../gravity_proto/src/prost/";
 
+#[derive(Clone)]
 pub struct RegexReplace {
     pub regex: Cow<'static, str>, // A regular expression to match faulty generated code with
     pub replace: Cow<'static, str>, // The string to replace the faulty code with
@@ -91,7 +93,7 @@ fn main() {
 }
 
 struct CompileArgs<'a> {
-    proto_paths: &'a [PathBuf],
+    proto_path: &'a PathBuf,
     proto_include_paths: &'a [PathBuf],
     replacements: &'a [RegexReplace],
     exclusions: &'a [&'a str],
@@ -102,7 +104,7 @@ struct CompileArgs<'a> {
 }
 fn compile_protos(
     CompileArgs {
-        proto_paths,
+        proto_path,
         proto_include_paths,
         replacements,
         exclusions,
@@ -112,42 +114,13 @@ fn compile_protos(
         clean_out,
     }: CompileArgs,
 ) {
-    // List available proto files
-    let mut protos: Vec<PathBuf> = vec![];
-    for proto_path in proto_paths {
-        protos.append(
-            &mut WalkDir::new(proto_path)
-                .into_iter()
-                .filter_map(|e| e.ok())
-                .filter(|e| {
-                    e.file_type().is_file()
-                        && e.path().extension().is_some()
-                        && e.path().extension().unwrap() == "proto"
-                })
-                .map(|e| e.into_path())
-                .collect(),
-        );
-    }
-
-    info!("Compiling proto files... {:#?}", protos);
+    info!("Compiling proto files... {:#?}", proto_path);
 
     // create directories for temporary build dirs
     fs::create_dir_all(tmp_path)
         .unwrap_or_else(|_| panic!("Failed to create {:?}", tmp_path.to_str()));
 
-    // Compile all proto files
-    let mut config = prost_build::Config::default();
-    config.out_dir(tmp_path);
-    config.compile_protos(&protos, proto_include_paths).unwrap();
-
-    // Compile all proto client for GRPC services
-    info!("[info ] Compiling proto clients for GRPC services!");
-    tonic_build::configure()
-        .build_client(true)
-        .build_server(false)
-        .out_dir(tmp_path)
-        .compile_protos(&protos, proto_include_paths)
-        .unwrap();
+    run_buf("buf.sdk.gen.yaml", proto_path, tmp_path);
 
     copy_generated_files(
         tmp_path,
@@ -241,4 +214,42 @@ fn copy_and_patch(
         contents.replace(TONIC_CLIENT_ATTRIBUTE, &GRPC_CLIENT_ATTRIBUTES.join("\n"));
 
     fs::write(dest, patched_contents)
+}
+
+fn run_cmd(cmd: impl AsRef<OsStr>, args: impl IntoIterator<Item = impl AsRef<OsStr>>) {
+    let stdout = process::Stdio::inherit();
+
+    let exit_status = process::Command::new(&cmd)
+        .args(args)
+        .stdout(stdout)
+        .status()
+        .unwrap_or_else(|e| match e.kind() {
+            io::ErrorKind::NotFound => panic!(
+                "error running '{:?}': command not found. Is it installed?",
+                cmd.as_ref()
+            ),
+            _ => panic!("error running '{:?}': {:?}", cmd.as_ref(), e),
+        });
+
+    if !exit_status.success() {
+        match exit_status.code() {
+            Some(code) => panic!("{:?} exited with error code: {:?}", cmd.as_ref(), code),
+            None => panic!("{:?} exited without error code", cmd.as_ref()),
+        }
+    }
+}
+
+fn run_buf(config: &str, proto_path: impl AsRef<Path>, out_dir: impl AsRef<Path>) {
+    run_cmd(
+        "buf",
+        [
+            "generate",
+            "--template",
+            config,
+            "--include-imports",
+            "-o",
+            &out_dir.as_ref().display().to_string(),
+            &proto_path.as_ref().display().to_string(),
+        ],
+    );
 }

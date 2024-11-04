@@ -212,6 +212,11 @@ pub mod cosmos {
 
 /// Tendermint proto definitions
 pub mod tendermint {
+    pub mod libs {
+        pub mod bits {
+            include!("prost/tendermint.libs.bits.rs");
+        }
+    }
     pub mod abci {
         include!("prost/tendermint.abci.rs");
     }
