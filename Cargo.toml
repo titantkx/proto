@@ -8,5 +8,5 @@ log = "0.4"
 prost = "0.13"
 prost-build = "0.13"
 prost-types = "0.13"
-tonic = "0.12"
+tonic = {version = "0.12", features = ["default", "channel"]}
 tonic-build = "0.12"
