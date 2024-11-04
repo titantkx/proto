@@ -13,7 +13,7 @@ keywords = ["blockchain", "cosmos", "proto"]
 license = "Apache-2.0"
 name = "cosmos-sdk-proto-titan"
 readme = "README.md"
-repository = "https://github.com/althea-net/proto/tree/main/cosmos_sdk_proto"
+repository = "https://github.com/titantkx/titan-rust-proto/tree/develop/cosmos_sdk_proto"
 rust-version = "1.56"
 version = "0.18.0"
 
