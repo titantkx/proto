@@ -43,4 +43,5 @@ pub struct MsgUpdateParams {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgUpdateParamsResponse {
 }
+include!("cosmos.crisis.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

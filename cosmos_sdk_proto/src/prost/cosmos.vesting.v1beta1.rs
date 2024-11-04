@@ -125,4 +125,5 @@ pub struct MsgCreatePeriodicVestingAccount {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgCreatePeriodicVestingAccountResponse {
 }
+include!("cosmos.vesting.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

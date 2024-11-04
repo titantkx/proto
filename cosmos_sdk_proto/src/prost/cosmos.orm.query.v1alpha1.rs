@@ -131,4 +131,5 @@ pub mod index_value {
         Duration(::prost_types::Duration),
     }
 }
+include!("cosmos.orm.query.v1alpha1.tonic.rs");
 // @@protoc_insertion_point(module)

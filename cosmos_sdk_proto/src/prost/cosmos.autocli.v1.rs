@@ -135,4 +135,5 @@ pub struct AppOptionsResponse {
     #[prost(map="string, message", tag="1")]
     pub module_options: ::std::collections::HashMap<::prost::alloc::string::String, ModuleOptions>,
 }
+include!("cosmos.autocli.v1.tonic.rs");
 // @@protoc_insertion_point(module)

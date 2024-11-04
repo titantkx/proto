@@ -10,4 +10,5 @@ pub struct FileDescriptorsResponse {
     #[prost(message, repeated, tag="1")]
     pub files: ::prost::alloc::vec::Vec<::prost_types::FileDescriptorProto>,
 }
+include!("cosmos.reflection.v1.tonic.rs");
 // @@protoc_insertion_point(module)

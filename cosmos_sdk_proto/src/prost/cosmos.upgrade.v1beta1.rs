@@ -187,4 +187,5 @@ pub struct MsgCancelUpgrade {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgCancelUpgradeResponse {
 }
+include!("cosmos.upgrade.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

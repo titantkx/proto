@@ -182,4 +182,5 @@ pub struct MsgRevoke {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgRevokeResponse {
 }
+include!("cosmos.authz.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

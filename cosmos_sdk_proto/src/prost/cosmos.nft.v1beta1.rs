@@ -244,4 +244,5 @@ pub struct MsgSend {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgSendResponse {
 }
+include!("cosmos.nft.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

@@ -140,4 +140,5 @@ pub struct QueryConfigResponse {
     #[prost(message, optional, tag="1")]
     pub config: ::core::option::Option<Config>,
 }
+include!("cosmos.app.v1alpha1.tonic.rs");
 // @@protoc_insertion_point(module)
