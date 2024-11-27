@@ -208,6 +208,12 @@ pub mod cosmos {
             include!("prost/cosmos.vesting.v1beta1.rs");
         }
     }
+
+    pub mod ics23 {
+        pub mod v1 {
+            include!("prost/cosmos.ics23.v1.rs");
+        }
+    }
 }
 
 /// Tendermint proto definitions
@@ -231,5 +237,112 @@ pub mod tendermint {
     }
     pub mod version {
         include!("prost/tendermint.version.rs");
+    }
+}
+
+/// IBC protobuf definitions.
+pub mod ibc {
+    /// IBC applications.
+    pub mod applications {
+        /// fee
+        pub mod fee {
+            pub mod v1 {
+                include!("prost/ibc.applications.fee.v1.rs");
+            }
+        }
+        /// Transfer support.
+        pub mod transfer {
+            pub mod v1 {
+                include!("prost/ibc.applications.transfer.v1.rs");
+            }
+
+            pub mod v2 {
+                include!("prost/ibc.applications.transfer.v2.rs");
+            }
+        }
+
+        /// ICA
+        pub mod interchain_accounts {
+            pub mod v1 {
+                include!("prost/ibc.applications.interchain_accounts.v1.rs");
+            }
+            pub mod controller {
+                pub mod v1 {
+                    include!("prost/ibc.applications.interchain_accounts.controller.v1.rs");
+                }
+            }
+
+            pub mod genesis {
+                pub mod v1 {
+                    include!("prost/ibc.applications.interchain_accounts.genesis.v1.rs");
+                }
+            }
+            pub mod host {
+                pub mod v1 {
+                    include!("prost/ibc.applications.interchain_accounts.host.v1.rs");
+                }
+            }
+        }
+    }
+
+    /// IBC core.
+    pub mod core {
+        /// IBC channels.
+        pub mod channel {
+            pub mod v1 {
+                include!("prost/ibc.core.channel.v1.rs");
+            }
+        }
+
+        /// IBC client.
+        pub mod client {
+            pub mod v1 {
+                include!("prost/ibc.core.client.v1.rs");
+            }
+        }
+
+        /// IBC commitments.
+        pub mod commitment {
+            pub mod v1 {
+                include!("prost/ibc.core.commitment.v1.rs");
+            }
+        }
+
+        /// IBC connections.
+        pub mod connection {
+            pub mod v1 {
+                include!("prost/ibc.core.connection.v1.rs");
+            }
+        }
+
+        /// IBC types.
+        pub mod types {
+            pub mod v1 {
+                include!("prost/ibc.core.types.v1.rs");
+            }
+        }
+    }
+
+    /// IBC light clients.
+    pub mod lightclients {
+        pub mod localhost {
+            pub mod v2 {
+                include!("prost/ibc.lightclients.localhost.v2.rs");
+            }
+        }
+        pub mod solomachine {
+            pub mod v2 {
+                include!("prost/ibc.lightclients.solomachine.v2.rs");
+            }
+
+            pub mod v3 {
+                include!("prost/ibc.lightclients.solomachine.v3.rs");
+            }
+        }
+        pub mod tendermint {
+            pub mod v1 {
+                include!("prost/ibc.lightclients.tendermint.v1.rs");
+            }
+        }
     }
 }

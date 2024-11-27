@@ -25,10 +25,7 @@ prost-types = {workspace = true}
 tonic = {workspace = true, optional = true}
 
 [features]
-bech32ibc = []
-cosmwasm = []
 default = ["grpc"]
-ethermint = []
 grpc = ["tonic"]
 
 [package.metadata.docs.rs]
