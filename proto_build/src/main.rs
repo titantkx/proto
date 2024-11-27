@@ -105,7 +105,7 @@ struct CompileArgs<'a> {
 fn compile_protos(
     CompileArgs {
         proto_path,
-        proto_include_paths,
+        proto_include_paths: _,
         replacements,
         exclusions,
         tmp_path,

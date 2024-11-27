@@ -41,6 +41,13 @@ pub fn cosmos_main(roots: RootDirs, tmp_dir: &str, out_dir: &str) {
     // this can easily be avoided by splitting each project into its own directory + crate, but for historical reasons it is being left in
     // the manner cosmos-sdk-proto performs this work (for now)
 
+    compile_ibc_protos_and_services(
+        Path::new(&roots.ibc),
+        Path::new(tmp_dir),
+        Path::new(out_dir),
+        &regex_replacements,
+    );
+
     // TODO: Split each project off into its own compilation directory + crate
     compile_sdk_protos_and_services(
         Path::new(&roots.cosmos),
@@ -89,4 +96,31 @@ fn compile_sdk_protos_and_services(
     });
 
     info!("=> Done!");
+}
+
+fn compile_ibc_protos_and_services(
+    root: &Path,
+    tmp_path: &Path,
+    out_path: &Path,
+    regex_replacements: &[RegexReplace],
+) {
+    info!(
+        "Compiling ibc .proto files to Rust into '{}'...",
+        out_path.display()
+    );
+
+    let proto_path = root.join("proto");
+
+    let proto_include_paths = [];
+
+    compile_protos(crate::CompileArgs {
+        proto_path: &proto_path,
+        proto_include_paths: &proto_include_paths,
+        replacements: regex_replacements,
+        exclusions: EXCLUDED_PROTO_PACKAGES,
+        tmp_path,
+        out_path,
+        clean_tmp: true,
+        clean_out: false,
+    });
 }
