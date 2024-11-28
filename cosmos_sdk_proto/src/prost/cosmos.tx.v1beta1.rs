@@ -529,5 +529,4 @@ impl BroadcastMode {
         }
     }
 }
-include!("cosmos.tx.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

@@ -12,6 +12,8 @@ pub mod cosmos {
     pub mod auth {
         pub mod v1beta1 {
             include!("prost/cosmos.auth.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.auth.v1beta1.tonic.rs");
         }
     }
 
@@ -19,6 +21,8 @@ pub mod cosmos {
     pub mod authz {
         pub mod v1beta1 {
             include!("prost/cosmos.authz.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.authz.v1beta1.tonic.rs");
         }
     }
 
@@ -26,6 +30,8 @@ pub mod cosmos {
     pub mod bank {
         pub mod v1beta1 {
             include!("prost/cosmos.bank.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.bank.v1beta1.tonic.rs");
         }
     }
 
@@ -90,6 +96,8 @@ pub mod cosmos {
     pub mod consensus {
         pub mod v1 {
             include!("prost/cosmos.consensus.v1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.consensus.v1.tonic.rs");
         }
     }
 
@@ -97,6 +105,8 @@ pub mod cosmos {
     pub mod crisis {
         pub mod v1beta1 {
             include!("prost/cosmos.crisis.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.crisis.v1beta1.tonic.rs");
         }
     }
 
@@ -121,6 +131,8 @@ pub mod cosmos {
     pub mod distribution {
         pub mod v1beta1 {
             include!("prost/cosmos.distribution.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.distribution.v1beta1.tonic.rs");
         }
     }
 
@@ -128,6 +140,8 @@ pub mod cosmos {
     pub mod evidence {
         pub mod v1beta1 {
             include!("prost/cosmos.evidence.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.evidence.v1beta1.tonic.rs");
         }
     }
 
@@ -135,6 +149,8 @@ pub mod cosmos {
     pub mod feegrant {
         pub mod v1beta1 {
             include!("prost/cosmos.feegrant.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.feegrant.v1beta1.tonic.rs");
         }
     }
 
@@ -149,6 +165,8 @@ pub mod cosmos {
     pub mod gov {
         pub mod v1beta1 {
             include!("prost/cosmos.gov.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.gov.v1beta1.tonic.rs");
         }
     }
 
@@ -156,6 +174,8 @@ pub mod cosmos {
     pub mod mint {
         pub mod v1beta1 {
             include!("prost/cosmos.mint.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.mint.v1beta1.tonic.rs");
         }
     }
 
@@ -163,6 +183,8 @@ pub mod cosmos {
     pub mod params {
         pub mod v1beta1 {
             include!("prost/cosmos.params.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.params.v1beta1.tonic.rs");
         }
     }
 
@@ -170,6 +192,8 @@ pub mod cosmos {
     pub mod slashing {
         pub mod v1beta1 {
             include!("prost/cosmos.slashing.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.slashing.v1beta1.tonic.rs");
         }
     }
 
@@ -178,6 +202,8 @@ pub mod cosmos {
         pub mod v1beta1 {
             // WARNING: This file is problematic due to a namespace conflict, see the README for more info
             include!("prost/cosmos.staking.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.staking.v1beta1.tonic.rs");
         }
     }
 
@@ -192,6 +218,8 @@ pub mod cosmos {
 
         pub mod v1beta1 {
             include!("prost/cosmos.tx.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.tx.v1beta1.tonic.rs");
         }
     }
 
@@ -199,6 +227,8 @@ pub mod cosmos {
     pub mod upgrade {
         pub mod v1beta1 {
             include!("prost/cosmos.upgrade.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.upgrade.v1beta1.tonic.rs");
         }
     }
 
@@ -206,6 +236,8 @@ pub mod cosmos {
     pub mod vesting {
         pub mod v1beta1 {
             include!("prost/cosmos.vesting.v1beta1.rs");
+            #[cfg(feature = "grpc")]
+            include!("prost/cosmos.vesting.v1beta1.tonic.rs");
         }
     }
 
@@ -225,6 +257,8 @@ pub mod tendermint {
     }
     pub mod abci {
         include!("prost/tendermint.abci.rs");
+        #[cfg(feature = "grpc")]
+        include!("prost/tendermint.abci.tonic.rs");
     }
     pub mod crypto {
         include!("prost/tendermint.crypto.rs");
@@ -248,6 +282,8 @@ pub mod ibc {
         pub mod fee {
             pub mod v1 {
                 include!("prost/ibc.applications.fee.v1.rs");
+                #[cfg(feature = "grpc")]
+                include!("prost/ibc.applications.fee.v1.tonic.rs");
             }
         }
         /// Transfer support.
@@ -269,6 +305,8 @@ pub mod ibc {
             pub mod controller {
                 pub mod v1 {
                     include!("prost/ibc.applications.interchain_accounts.controller.v1.rs");
+                    #[cfg(feature = "grpc")]
+                    include!("prost/ibc.applications.interchain_accounts.controller.v1.tonic.rs");
                 }
             }
 
@@ -291,6 +329,8 @@ pub mod ibc {
         pub mod channel {
             pub mod v1 {
                 include!("prost/ibc.core.channel.v1.rs");
+                #[cfg(feature = "grpc")]
+                include!("prost/ibc.core.channel.v1.tonic.rs");
             }
         }
 
@@ -298,6 +338,8 @@ pub mod ibc {
         pub mod client {
             pub mod v1 {
                 include!("prost/ibc.core.client.v1.rs");
+                #[cfg(feature = "grpc")]
+                include!("prost/ibc.core.client.v1.tonic.rs");
             }
         }
 
@@ -312,6 +354,8 @@ pub mod ibc {
         pub mod connection {
             pub mod v1 {
                 include!("prost/ibc.core.connection.v1.rs");
+                #[cfg(feature = "grpc")]
+                include!("prost/ibc.core.connection.v1.tonic.rs");
             }
         }
 

@@ -194,5 +194,4 @@ pub struct MsgTransferResponse {
     #[prost(uint64, tag="1")]
     pub sequence: u64,
 }
-include!("ibc.applications.transfer.v1.tonic.rs");
 // @@protoc_insertion_point(module)

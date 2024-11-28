@@ -378,5 +378,4 @@ pub struct MsgPayPacketFeeAsync {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgPayPacketFeeAsyncResponse {
 }
-include!("ibc.applications.fee.v1.tonic.rs");
 // @@protoc_insertion_point(module)

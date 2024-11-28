@@ -390,5 +390,4 @@ pub struct MsgConnectionOpenConfirm {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgConnectionOpenConfirmResponse {
 }
-include!("ibc.core.connection.v1.tonic.rs");
 // @@protoc_insertion_point(module)

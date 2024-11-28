@@ -21,5 +21,4 @@ pub struct QueryParamsResponse {
     #[prost(message, optional, tag="1")]
     pub params: ::core::option::Option<Params>,
 }
-include!("ibc.applications.interchain_accounts.host.v1.tonic.rs");
 // @@protoc_insertion_point(module)

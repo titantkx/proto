@@ -70,5 +70,4 @@ pub struct MsgSendTxResponse {
     #[prost(uint64, tag="1")]
     pub sequence: u64,
 }
-include!("ibc.applications.interchain_accounts.controller.v1.tonic.rs");
 // @@protoc_insertion_point(module)

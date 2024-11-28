@@ -456,5 +456,4 @@ pub struct MsgSetSendEnabled {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgSetSendEnabledResponse {
 }
-include!("cosmos.bank.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

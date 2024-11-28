@@ -6,3 +6,4 @@ plugins:
     out: .
     opt:      
       - no_server
+      - no_include

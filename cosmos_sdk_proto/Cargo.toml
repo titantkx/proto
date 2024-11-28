@@ -25,7 +25,7 @@ prost-types = {workspace = true}
 tonic = {workspace = true, optional = true}
 
 [features]
-default = ["grpc"]
+default = []
 grpc = ["tonic"]
 
 [package.metadata.docs.rs]

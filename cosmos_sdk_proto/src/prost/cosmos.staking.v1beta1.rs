@@ -904,5 +904,4 @@ pub struct MsgDelegateForOther {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgDelegateForOtherResponse {
 }
-include!("cosmos.staking.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)

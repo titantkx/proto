@@ -81,5 +81,4 @@ pub struct MsgSubmitEvidenceResponse {
     #[prost(bytes="vec", tag="4")]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
-include!("cosmos.evidence.v1beta1.tonic.rs");
 // @@protoc_insertion_point(module)
