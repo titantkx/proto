@@ -20,8 +20,10 @@ use cosmos_sdk::{cosmos_main, RootDirs};
 use env_logger::Env;
 use regex::Regex;
 use walkdir::WalkDir;
+use wasmd::wasmd_main;
 
 pub mod cosmos_sdk;
+pub mod wasmd;
 
 #[macro_use]
 extern crate log;
@@ -39,7 +41,8 @@ pub const GRPC_CLIENT_ATTRIBUTES: &[&str] = &[
 pub const COSMOS_SDK_ROOT: &str = "../cosmos-sdk/";
 pub const TENDERMINT_ROOT: &str = "../tendermint/";
 pub const IBC_ROOT: &str = "../ibc-go/";
-pub const GOOGLE_COMMON_ROOT: &str = "../common_proto/";
+
+pub const WASMD_ROOT: &str = "../wasmd/";
 
 pub const GRAVITY_ROOT: &str = "../gravity/";
 
@@ -48,6 +51,7 @@ pub const TMP_PATH: &str = "/tmp/proto/";
 /// the output directory
 pub const COSMOS_OUT_PATH: &str = "../cosmos_sdk_proto/src/prost/";
 pub const GRAVITY_OUT_PATH: &str = "../gravity_proto/src/prost/";
+pub const WASMD_OUT_PATH: &str = "../wasmd_proto/src/prost/";
 
 #[derive(Clone)]
 pub struct RegexReplace {
@@ -90,6 +94,8 @@ fn main() {
         TMP_PATH,
         COSMOS_OUT_PATH,
     );
+
+    wasmd_main(WASMD_ROOT.to_string(), TMP_PATH, WASMD_OUT_PATH);
 }
 
 struct CompileArgs<'a> {

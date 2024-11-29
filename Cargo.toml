@@ -1,5 +1,5 @@
 [workspace]
-members = ["cosmos_sdk_proto", "proto_build"]
+members = ["cosmos_sdk_proto", "proto_build", "wasmd_proto"]
 resolver = "2"
 
 [workspace.dependencies]

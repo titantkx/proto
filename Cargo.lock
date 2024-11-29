@@ -1205,6 +1205,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
 
 [[package]]
+name = "wasmd-proto-titan"
+version = "0.1.0"
+dependencies = [
+ "cosmos-sdk-proto-titan",
+ "prost",
+ "prost-types",
+ "tonic",
+]
+
+[[package]]
 name = "winapi-util"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
