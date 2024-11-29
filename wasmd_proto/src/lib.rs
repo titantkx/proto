@@ -1,5 +1,4 @@
-pub use cosmos_sdk_proto::cosmos;
-
+use cosmos_sdk_proto::cosmos;
 
 pub mod cosmwasm {
     pub mod wasm {
