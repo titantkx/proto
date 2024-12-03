@@ -121,6 +121,6 @@ fn compile_ibc_protos_and_services(
         tmp_path,
         out_path,
         clean_tmp: true,
-        clean_out: false,
+        clean_out: true,
     });
 }
